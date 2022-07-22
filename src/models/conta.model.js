@@ -1,6 +1,6 @@
 const connection = require('./connection');
 
-const depositoConta = async (operacao, codCliente, valor) => {
+const operacaoConta = async (operacao, codCliente, valor) => {
   const query = `INSERT INTO Investimentos.conta (operacao, codCliente, valor) VALUES
   (?, ?, ?);`;
   const resultado = await connection.execute(query, [operacao, codCliente, valor]);
@@ -13,7 +13,8 @@ const atualizarSaldo = async (codCliente, saldoAtualizado) => {
   return resultado;
 };
 
+
 module.exports = {
-  depositoConta,
+  operacaoConta,
   atualizarSaldo,
 };

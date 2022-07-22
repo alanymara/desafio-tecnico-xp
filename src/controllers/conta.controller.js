@@ -5,6 +5,12 @@ const depositoConta = async (req, res) => {
   res.status(201).json(resultado);
 };
 
+const saqueConta = async (req, res) => {
+  const resultado = await contaService.saqueConta(req.body);
+  res.status(201).json(resultado);
+};
+
 module.exports = {
-  depositoConta
+  depositoConta,
+  saqueConta,
 }
