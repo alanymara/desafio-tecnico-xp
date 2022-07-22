@@ -6,7 +6,7 @@ const schema = Joi.object({
   codCliente: Joi.number().min(1).required(),
 });
 
-const comprasValidate = (req, _res, next) => {
+const comprasValidacao = (req, _res, next) => {
   const novaCompra = req.body;
   const { error } = schema.validate(novaCompra);
 
@@ -16,4 +16,4 @@ const comprasValidate = (req, _res, next) => {
   next();
 }
 
-module.exports = comprasValidate;
+module.exports = comprasValidacao;

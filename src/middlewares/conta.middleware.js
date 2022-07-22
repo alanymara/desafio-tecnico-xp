@@ -2,10 +2,10 @@ const Joi = require('joi');
 
 const schema = Joi.object({
   CodCliente: Joi.number().min(1).required(),
-  Saldo: Joi.number().min(1).required(),
+  Valor: Joi.number().min(1).required(),
 });
 
-const depositoValidate = (req, _res, next) => {
+const depositoValidacao = (req, _res, next) => {
   const novoDeposito = req.body;
   const { error } = schema.validate(novoDeposito);
 
@@ -15,4 +15,4 @@ const depositoValidate = (req, _res, next) => {
   next();
 }
 
-module.exports = depositoValidate;
+module.exports = depositoValidacao;
