@@ -7,13 +7,13 @@ const comprarAtivos = async (codAtivo, qtdeAtivo, codCliente) => {
 }
 
 const buscarAtivo = async (cod) => {
-  const query = 'SELECT * FROM Investimentos.ativos WHERE codAtivo = ?;';
+  const query = 'SELECT codAtivo AS CodAtivo, qtdeAtivo AS QtdeAtivo, valorAtivo AS Valor FROM Investimentos.ativos WHERE codAtivo = ?;';
   const [resultado] = await connection.execute(query, [cod]);
   return resultado;
 }
 
 const buscarCliente =  async (cod) => {
-  const query = `SELECT CA.codCliente, CA.codAtivo, CA.qtdeAtivo, A.valorAtivo
+  const query = `SELECT CA.codCliente AS CodCliente, CA.codAtivo AS CodAtivo, CA.qtdeAtivo AS QtdeAtivo, A.valorAtivo AS Valor
   FROM Investimentos.clientesAtivos AS CA
   INNER JOIN Investimentos.ativos AS A ON CA.codAtivo = A.codAtivo WHERE CA.codCliente = ?;`;
   const [resultado] = await connection.execute(query, [cod]);

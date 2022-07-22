@@ -20,12 +20,20 @@ const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
   }
   const qtdeAtual = ativo[0].qtdeAtivo - qtdeAtivo;
 
-  const resultado = await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente)
+  await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente)
   await investimentosModel.atualizarQtdeAtivo(codAtivo, qtdeAtual)
-  return resultado;
+  return { message: `Compra do ativo realizada com sucesso!`};
 }
 
-const buscarCliente = async (cod) => {
+const buscarClienteOuAtivo = async (cod) => {
+  if (cod >= 1000) {
+    const ativo = await buscarAtivo(cod);
+    if(ativo.length === 0) {
+      const erro = { status: 400, message: 'Codigo do ativo inválido'};
+      throw erro;
+    }
+    return ativo;
+  }
   const cliente = await investimentosModel.checarCliente(cod);
   if (cliente.length === 0) {
     const erro = { status: 400, message: 'Codigo do cliente inválido'};
@@ -46,5 +54,5 @@ const buscarAtivo = async (cod) => {
 module.exports = {
   comprarAtivos,
   buscarAtivo,
-  buscarCliente,
+  buscarClienteOuAtivo,
 }
