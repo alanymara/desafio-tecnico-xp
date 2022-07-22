@@ -13,7 +13,9 @@ const getAtivosByCod = async (cod) => {
 }
 
 const getClientesByCod =  async (cod) => {
-  const query = 'SELECT * FROM Investimentos.clientes WHERE codCliente = ?;';
+  const query = `SELECT CA.codCliente, CA.codAtivo, CA.qtdeAtivo, A.valorAtivo
+  FROM Investimentos.clientesAtivos AS CA
+  INNER JOIN Investimentos.ativos AS A ON CA.codAtivo = A.codAtivo WHERE CA.codCliente = ?;`;
   const [result] = await connection.execute(query, [cod]);
   return result;
 }
