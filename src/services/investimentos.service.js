@@ -20,13 +20,17 @@ const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
   return result;
 }
 
-const getAtivosByCod = async (cod) => {
-  const result = await investimentosModel.getAtivosByCod(cod);
+const getClientesByCod = async (cod) => {
+  const result = await investimentosModel.getClientesByCod(cod);
+  if (result.length === 0) {
+    const erro = { status: 400, message: 'Codigo do cliente inválido'};
+    throw erro;
+  }
   return result;
 }
 
-const getClientesByCod = async (cod) => {
-  const result = await investimentosModel.getClientesByCod(cod);
+const getAtivosByCod = async (cod) => {
+  const result = await investimentosModel.getAtivosByCod(cod);
   return result;
 }
 
