@@ -13,8 +13,10 @@ const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
     const erro = { status: 400, message: 'Quantidade de ativos ultrapassa a disponibilidade'};
     throw erro;
   }
+  const qtdeAtual = ativo[0].qtdeAtivo - qtdeAtivo;
 
   const result = await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente)
+  await investimentosModel.updateQtdeAtivo(codAtivo, qtdeAtual)
   return result;
 }
 

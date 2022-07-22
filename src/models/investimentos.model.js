@@ -18,8 +18,15 @@ const getClientesByCod =  async (cod) => {
   return result;
 }
 
+const updateQtdeAtivo = async (codAtivo, qtdeAtivo) => {
+  const query = 'UPDATE Investimentos.ativos SET qtdeAtivo = ? WHERE codAtivo = ?; ';
+  const [result] = await connection.execute(query, [qtdeAtivo, codAtivo]);
+  return result;
+}
+
 module.exports = {
   comprarAtivos,
   getAtivosByCod,
   getClientesByCod,
+  updateQtdeAtivo,
 }
