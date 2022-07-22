@@ -1,17 +1,13 @@
 const express = require('express');
-const investimentosRouters = require('./src/routers/investimentos.routers');
+const investimentosRouters = require('./src/routers/investimentos.router');
 
 const app = express();
 
 app.use(express.json());
 
-/* app.use('/', investimentosRouters) */
+app.use('/', investimentosRouters)
 
-app.get('/teste', () => {
-  console.log('deu certo');
-})
-
-const port = 3002;
+const port = process.env.PORT;
 
 app.listen(port, () => {
   console.log(`escutando a porta ${port}`)
