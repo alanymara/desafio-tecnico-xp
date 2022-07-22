@@ -1,41 +1,50 @@
 const investimentosModel = require('../models/investimentos.model');
 
 const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
-  const ativo = await getAtivosByCod(codAtivo);
-  const cliente = await getClientesByCod(codCliente);
+  const ativo = await buscarAtivo(codAtivo);
+  const cliente = await investimentosModel.checarCliente(codCliente);
 
-  if (ativo.length === 0 || cliente.length === 0) {
-    const erro = { status: 400, message: 'Codigo do ativo ou do cliente inválido'};
+  if (ativo.length === 0) {
+    const erro = { status: 400, message: 'Codigo do ativo inválido'};
     throw erro;
   }
 
+  if (cliente.length === 0) {
+    const erro = { status: 400, message: 'Codigo do cliente inválido'};
+    throw erro;
+  }
+  
   if (ativo[0].qtdeAtivo < qtdeAtivo) {
     const erro = { status: 400, message: 'Quantidade de ativos ultrapassa a disponibilidade'};
     throw erro;
   }
   const qtdeAtual = ativo[0].qtdeAtivo - qtdeAtivo;
 
-  const result = await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente)
-  await investimentosModel.updateQtdeAtivo(codAtivo, qtdeAtual)
-  return result;
+  const resultado = await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente)
+  await investimentosModel.atualizarQtdeAtivo(codAtivo, qtdeAtual)
+  return resultado;
 }
 
-const getClientesByCod = async (cod) => {
-  const result = await investimentosModel.getClientesByCod(cod);
-  if (result.length === 0) {
+const buscarCliente = async (cod) => {
+  const cliente = await investimentosModel.checarCliente(cod);
+  if (cliente.length === 0) {
     const erro = { status: 400, message: 'Codigo do cliente inválido'};
     throw erro;
   }
-  return result;
+  const resultado = await investimentosModel.buscarCliente(cod);
+  if (resultado.length === 0) {
+    return { codCliente: cliente[0].codCliente, message: `Cliente sem ativos` };
+  }
+  return resultado;
 }
 
-const getAtivosByCod = async (cod) => {
-  const result = await investimentosModel.getAtivosByCod(cod);
+const buscarAtivo = async (cod) => {
+  const result = await investimentosModel.buscarAtivo(cod);
   return result;
 }
 
 module.exports = {
   comprarAtivos,
-  getAtivosByCod,
-  getClientesByCod,
+  buscarAtivo,
+  buscarCliente,
 }
