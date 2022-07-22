@@ -7,8 +7,8 @@ const schema = Joi.object({
 });
 
 const comprasValidate = (req, _res, next) => {
-  const newCompra = req.body;
-  const { error } = schema.validate(newCompra);
+  const novaCompra = req.body;
+  const { error } = schema.validate(novaCompra);
 
   if (error) {
     return next({ status: 400, message: error.message });
