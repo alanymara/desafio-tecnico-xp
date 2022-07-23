@@ -33,7 +33,17 @@ const saqueConta = async ({ CodCliente, Valor }) => {
   return { message: `Saque realizado com sucesso. Saldo atualizado!`};
 }
 
+const checarCliente = async ({ cod }) => {
+  const cliente = await investimentosModel.checarCliente(cod);
+  if (cliente.length === 0) {
+    const erro = { status: 400, message: 'Codigo do cliente inválido'};
+    throw erro;
+  }
+  return cliente;
+}
+
 module.exports = {
   depositoConta,
   saqueConta,
+  checarCliente,
 }

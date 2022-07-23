@@ -14,14 +14,18 @@ const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
     throw erro;
   }
   
-  if (ativo[0].qtdeAtivo < qtdeAtivo) {
+  if (ativo[0].QtdeAtivo < qtdeAtivo) {
     const erro = { status: 400, message: 'Quantidade de ativos ultrapassa a disponibilidade'};
     throw erro;
   }
-  const qtdeAtual = ativo[0].qtdeAtivo - qtdeAtivo;
+  const qtdeAtualAtivo = ativo[0].QtdeAtivo - qtdeAtivo;
+  
+  const valorTotalCompra = qtdeAtivo * ativo[0].Valor;
+  const saldoClienteAtualizado = cliente[0].Saldo - valorTotalCompra;
 
   await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente)
-  await investimentosModel.atualizarQtdeAtivo(codAtivo, qtdeAtual)
+  await investimentosModel.atualizarQtdeAtivo(codAtivo, qtdeAtualAtivo)
+  await investimentosModel.atualizarSaldo(codCliente, saldoClienteAtualizado);
   return { message: `Compra do ativo realizada com sucesso!`};
 }
 
