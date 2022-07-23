@@ -15,14 +15,14 @@ const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
 
   if (clienteTemEsseAtivo.length !== 0) {
     const qtdeAtualAtivoComprado = clienteTemEsseAtivo[0].QtdeAtivo +  qtdeAtivo;
-    const saldoClienteAtualizado = verificarSaldoDisponivel(qtdeAtivo, ativo[0].Valor, cliente[0].Saldo )
-    await investimentosModel.comprarDoMesmoAtivo(qtdeAtualAtivoComprado, codAtivo)
-    await atualizarInformacoes(ativo[0].QtdeAtivo, qtdeAtivo, codAtivo, codCliente, saldoClienteAtualizado);
+    const saldoClienteAtualizado = verificarSaldoDisponivel(qtdeAtivo, ativo[0].Valor, cliente[0].Saldo );
+    await investimentosModel.comprarDoMesmoAtivo(qtdeAtualAtivoComprado, codAtivo);
+    return await atualizarInformacoes(ativo[0].QtdeAtivo, qtdeAtivo, codAtivo, codCliente, saldoClienteAtualizado);
   } else {
-
-    const saldoClienteAtualizado = verificarSaldoDisponivel(qtdeAtivo, ativo[0].Valor, cliente[0].Saldo )
+    
+    const saldoClienteAtualizado = verificarSaldoDisponivel(qtdeAtivo, ativo[0].Valor, cliente[0].Saldo);
     await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente);
-    await atualizarInformacoes(ativo[0].QtdeAtivo, qtdeAtivo, codAtivo, codCliente, saldoClienteAtualizado);
+    return await atualizarInformacoes(ativo[0].QtdeAtivo, qtdeAtivo, codAtivo, codCliente, saldoClienteAtualizado);
   }
 }
 
@@ -31,11 +31,11 @@ const buscarClienteOuAtivo = async (cod) => {
     return await buscarAtivo(cod);
   };
   const cliente = await contaService.checarCliente(cod);
-  const resultado = await investimentosModel.buscarCliente(cod);
-  if (resultado.length === 0) {
+  const clienteEAtivos = await investimentosModel.buscarCliente(cod);
+  if (clienteEAtivos.length === 0) {
     return { codCliente: cliente[0].codCliente, message: `Cliente sem ativos` };
   };
-  return resultado;
+  return clienteEAtivos;
 }
 
 const buscarAtivo = async (cod) => {
@@ -45,7 +45,6 @@ const buscarAtivo = async (cod) => {
     throw erro;
   }
   return ativo;
-
 }
 
 const verificarSaldoDisponivel = (qtdeAtivo, ativoValor, clienteSaldo ) => {
