@@ -5,9 +5,9 @@ const schema = Joi.object({
   Valor: Joi.number().min(1).required(),
 });
 
-const depositoValidacao = (req, _res, next) => {
-  const novoDeposito = req.body;
-  const { error } = schema.validate(novoDeposito);
+const operacaoValidacao = (req, _res, next) => {
+  const novaOperacao = req.body;
+  const { error } = schema.validate(novaOperacao);
 
   if (error) {
     return next({ status: 400, message: error.message });
@@ -15,4 +15,4 @@ const depositoValidacao = (req, _res, next) => {
   next();
 }
 
-module.exports = depositoValidacao;
+module.exports = operacaoValidacao;

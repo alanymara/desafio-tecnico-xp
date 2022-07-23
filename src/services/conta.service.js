@@ -22,6 +22,10 @@ const saqueConta = async ({ CodCliente, Valor }) => {
     const erro = { status: 400, message: 'Codigo do cliente inválido'};
     throw erro;
   };
+  if (cliente[0].saldo < +Valor) {
+    const erro = { status: 400, message: `Valor indisponível, seu saldo é $${cliente[0].saldo}`};
+    throw erro;
+  }
 
   await contaModel.operacaoConta(S, CodCliente, Valor);
   const saldoAtualizado = +cliente[0].saldo - +Valor;

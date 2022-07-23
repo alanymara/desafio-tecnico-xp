@@ -1,13 +1,13 @@
 const express = require('express');
 const { depositoConta, saqueConta } = require('../controllers/conta.controller');
-const depositoValidacao = require('../middlewares/conta.middleware');
+const operacaoValidacao = require('../middlewares/conta.middleware');
 require('express-async-errors');
 
 const routers = express.Router();
 
-routers.post('/conta/deposito', depositoValidacao, depositoConta);
+routers.post('/conta/deposito', operacaoValidacao, depositoConta);
 
-routers.post('/conta/saque', saqueConta);
+routers.post('/conta/saque', operacaoValidacao, saqueConta);
 
 /* routers.get('conta/:id', buscarClienteOuAtivo); */
 
