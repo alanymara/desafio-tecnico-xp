@@ -5,11 +5,12 @@ require('express-async-errors');
 
 const routers = express.Router();
 
+routers.get('/conta/:cod', checarCliente);
+
 routers.post('/conta/deposito', operacaoValidacao, depositoConta);
 
 routers.post('/conta/saque', operacaoValidacao, saqueConta);
 
-routers.get('/conta/:cod', checarCliente);
 
 
 module.exports = routers;

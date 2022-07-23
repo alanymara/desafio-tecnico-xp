@@ -1,8 +1,17 @@
 const Joi = require('joi');
 
 const schema = Joi.object({
-  CodCliente: Joi.number().min(1).required(),
-  Valor: Joi.number().min(1).required(),
+  CodCliente: Joi.number().integer().min(1).required().messages({
+    'any.required': 'O campo "CodCliente" é obrigatório',
+    'number.base': 'O campo "CodCliente" deve ser um número',
+    'number.integer': 'O "CodCliente" deve ser um número inteiro',
+    'number.min': 'O "CodCliente" deve ser um número a partir de 1',
+  }),
+  Valor: Joi.number().min(1).required().messages({
+    'any.required': 'O campo "Valor" é obrigatório',
+    'number.base': 'O campo "Valor" deve ser um número',
+    'number.min': 'O "Valor" deve ser um número a partir de 1.00',
+  })
 });
 
 const operacaoValidacao = (req, _res, next) => {
