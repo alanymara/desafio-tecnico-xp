@@ -36,7 +36,13 @@ const atualizarSaldo = async (codCliente, saldoAtualizado) => {
   const query = 'UPDATE Investimentos.clientes SET saldo = ? WHERE codCliente = ?;';
   const [resultado] = await connection.execute(query, [saldoAtualizado, codCliente]);
   return resultado;
-}
+};
+
+const buscarTodosAtivos = async () => {
+  const query = 'SELECT codAtivo, qtdeAtivo FROM Investimentos.clientesAtivos;';
+  const [resultado] = await connection.execute(query);
+  return resultado; 
+};
 
 module.exports = {
   comprarAtivos,
@@ -45,4 +51,5 @@ module.exports = {
   atualizarQtdeAtivo,
   atualizarSaldo,
   comprarDoMesmoAtivo,
+  buscarTodosAtivos,
 };

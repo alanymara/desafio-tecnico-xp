@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const schema = Joi.object({
-  codAtivo: Joi.number().min(1000).required().messages({
+  codAtivo: Joi.number().min(100).required().messages({
     'any.required': 'O campo "codAtivo" é obrigatório',
     'number.base': 'O campo "codAtivo" deve ser um número',
     'number.integer': 'O "codAtivo" deve ser um número inteiro',

@@ -23,11 +23,11 @@ const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
     const saldoClienteAtualizado = verificarSaldoDisponivel(qtdeAtivo, ativo[0].Valor, cliente[0].Saldo);
     await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente);
     return await atualizarInformacoes(ativo[0].QtdeAtivo, qtdeAtivo, codAtivo, codCliente, saldoClienteAtualizado);
-  }
-}
+  };
+};
 
 const buscarClienteOuAtivo = async (cod) => {
-  if (cod >= 1000) {
+  if (cod >= 100) {
     return await buscarAtivo(cod);
   };
   const cliente = await contaService.checarCliente(cod);
@@ -36,7 +36,7 @@ const buscarClienteOuAtivo = async (cod) => {
     return { codCliente: cliente[0].codCliente, message: `Cliente sem ativos` };
   };
   return clienteEAtivos;
-}
+};
 
 const buscarAtivo = async (cod) => {
   const ativo = await investimentosModel.buscarAtivo(cod);
@@ -45,7 +45,7 @@ const buscarAtivo = async (cod) => {
     throw erro;
   }
   return ativo;
-}
+};
 
 const verificarSaldoDisponivel = (qtdeAtivo, ativoValor, clienteSaldo ) => {
   const valorTotalCompra = qtdeAtivo * ativoValor;
@@ -55,17 +55,23 @@ const verificarSaldoDisponivel = (qtdeAtivo, ativoValor, clienteSaldo ) => {
       throw erro;
     };
     return saldoClienteAtualizado;
-}
+};
 
 const atualizarInformacoes = async (qtdeAtivo, qtdeAtivoCompra, codAtivo, codCliente, saldoClienteAtualizado) => {
   const qtdeAtualAtivo = qtdeAtivo - qtdeAtivoCompra;
   await investimentosModel.atualizarQtdeAtivo(codAtivo, qtdeAtualAtivo);
   await investimentosModel.atualizarSaldo(codCliente, saldoClienteAtualizado);
   return { message: `Compra do ativo realizada com sucesso!`};
-}
+};
+
+const buscarTodosAtivos = async () => {
+  const ativos = await investimentosModel.buscarTodosAtivos();
+  return ativos;
+};
 
 module.exports = {
   comprarAtivos,
   buscarAtivo,
   buscarClienteOuAtivo,
+  buscarTodosAtivos,
 }
