@@ -11,8 +11,9 @@ const saqueConta = async (req, res) => {
 };
 
 const checarCliente = async (req, res) => {
-  const resultado = await contaService.checarCliente(req.params);
-  res.status(201).json(resultado);
+  const { cod } = req.params;
+  const resultado = await contaService.checarCliente(cod);
+  res.status(200).json(resultado);
 }
 
 module.exports = {

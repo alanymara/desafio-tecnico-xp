@@ -13,8 +13,14 @@ const atualizarSaldo = async (codCliente, saldoAtualizado) => {
   return resultado;
 };
 
+const checarCliente = async (cod) => {
+  const query = `SELECT codCliente AS CodCliente, saldo AS Saldo FROM Investimentos.clientes WHERE codCliente = ?;`;
+  const [resultado] = await connection.execute(query, [cod]);
+  return resultado;
+};
 
 module.exports = {
   operacaoConta,
   atualizarSaldo,
+  checarCliente,
 };

@@ -5,17 +5,17 @@ const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
   const cliente = await investimentosModel.checarCliente(codCliente);
 
   if (ativo.length === 0) {
-    const erro = { status: 400, message: 'Codigo do ativo inválido'};
+    const erro = { status: 400, message: `Codigo do ativo inválido`};
     throw erro;
   }
 
   if (cliente.length === 0) {
-    const erro = { status: 400, message: 'Codigo do cliente inválido'};
+    const erro = { status: 400, message: `Codigo do cliente inválido`};
     throw erro;
   }
   
   if (ativo[0].QtdeAtivo < qtdeAtivo) {
-    const erro = { status: 400, message: 'Quantidade de ativos ultrapassa a disponibilidade'};
+    const erro = { status: 400, message: `Quantidade de ativos ultrapassa a disponibilidade`};
     throw erro;
   }
 
@@ -27,6 +27,10 @@ const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
     const qtdeAtualAtivo = ativo[0].QtdeAtivo - qtdeAtivo;
     const valorTotalCompra = qtdeAtivo * ativo[0].Valor;
     const saldoClienteAtualizado = cliente[0].Saldo - valorTotalCompra;
+    if (saldoClienteAtualizado < 0) {
+      const erro = { status: 400, message: `Saldo insuficiente`};
+      throw erro;
+    }
     await investimentosModel.atualizarQtdeAtivo(codAtivo, qtdeAtualAtivo)
     await investimentosModel.atualizarSaldo(codCliente, saldoClienteAtualizado);
     await investimentosModel.comprarDoMesmoAtivo(qtdeAtualAtivoComprado, codAtivo)
@@ -35,6 +39,10 @@ const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
     const qtdeAtualAtivo = ativo[0].QtdeAtivo - qtdeAtivo;
     const valorTotalCompra = qtdeAtivo * ativo[0].Valor;
     const saldoClienteAtualizado = cliente[0].Saldo - valorTotalCompra;
+    if (saldoClienteAtualizado < 0) {
+      const erro = { status: 400, message: `Saldo insuficiente`};
+      throw erro;
+    }
     await investimentosModel.atualizarQtdeAtivo(codAtivo, qtdeAtualAtivo)
     await investimentosModel.atualizarSaldo(codCliente, saldoClienteAtualizado);
     await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente)
@@ -46,14 +54,14 @@ const buscarClienteOuAtivo = async (cod) => {
   if (cod >= 1000) {
     const ativo = await buscarAtivo(cod);
     if(ativo.length === 0) {
-      const erro = { status: 400, message: 'Codigo do ativo inválido'};
+      const erro = { status: 400, message: `Codigo do ativo inválido`};
       throw erro;
     }
     return ativo;
   }
   const cliente = await investimentosModel.checarCliente(cod);
   if (cliente.length === 0) {
-    const erro = { status: 400, message: 'Codigo do cliente inválido'};
+    const erro = { status: 400, message: `Codigo do cliente inválido`};
     throw erro;
   }
   const resultado = await investimentosModel.buscarCliente(cod);
