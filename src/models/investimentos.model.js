@@ -32,12 +32,6 @@ const atualizarQtdeAtivo = async (codAtivo, qtdeAtivo) => {
   return resultado;
 };
 
-const checarCliente = async (cod) => {
-  const query = `SELECT codCliente AS CodCliente, saldo AS Saldo FROM Investimentos.clientes WHERE codCliente = ?;`;
-  const [resultado] = await connection.execute(query, [cod]);
-  return resultado;
-};
-
 const atualizarSaldo = async (codCliente, saldoAtualizado) => {
   const query = 'UPDATE Investimentos.clientes SET saldo = ? WHERE codCliente = ?;';
   const [resultado] = await connection.execute(query, [saldoAtualizado, codCliente]);
@@ -49,7 +43,6 @@ module.exports = {
   buscarAtivo,
   buscarCliente,
   atualizarQtdeAtivo,
-  checarCliente,
   atualizarSaldo,
   comprarDoMesmoAtivo,
 };
