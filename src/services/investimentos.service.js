@@ -18,15 +18,28 @@ const comprarAtivos = async ({ codAtivo, qtdeAtivo, codCliente }) => {
     const erro = { status: 400, message: 'Quantidade de ativos ultrapassa a disponibilidade'};
     throw erro;
   }
-  const qtdeAtualAtivo = ativo[0].QtdeAtivo - qtdeAtivo;
-  
-  const valorTotalCompra = qtdeAtivo * ativo[0].Valor;
-  const saldoClienteAtualizado = cliente[0].Saldo - valorTotalCompra;
 
-  await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente)
-  await investimentosModel.atualizarQtdeAtivo(codAtivo, qtdeAtualAtivo)
-  await investimentosModel.atualizarSaldo(codCliente, saldoClienteAtualizado);
-  return { message: `Compra do ativo realizada com sucesso!`};
+  const clienteEAtivos = await investimentosModel.buscarCliente(codCliente);
+  const clienteTemAtivo = clienteEAtivos.filter(({ CodAtivo }) => CodAtivo === codAtivo);
+
+  if (clienteTemAtivo.length !== 0) {
+    const qtdeAtualAtivoComprado = clienteTemAtivo[0].QtdeAtivo +  qtdeAtivo;
+    const qtdeAtualAtivo = ativo[0].QtdeAtivo - qtdeAtivo;
+    const valorTotalCompra = qtdeAtivo * ativo[0].Valor;
+    const saldoClienteAtualizado = cliente[0].Saldo - valorTotalCompra;
+    await investimentosModel.atualizarQtdeAtivo(codAtivo, qtdeAtualAtivo)
+    await investimentosModel.atualizarSaldo(codCliente, saldoClienteAtualizado);
+    await investimentosModel.comprarDoMesmoAtivo(qtdeAtualAtivoComprado, codAtivo)
+    return { message: `Compra do ativo realizada com sucesso!`};
+  } else {
+    const qtdeAtualAtivo = ativo[0].QtdeAtivo - qtdeAtivo;
+    const valorTotalCompra = qtdeAtivo * ativo[0].Valor;
+    const saldoClienteAtualizado = cliente[0].Saldo - valorTotalCompra;
+    await investimentosModel.atualizarQtdeAtivo(codAtivo, qtdeAtualAtivo)
+    await investimentosModel.atualizarSaldo(codCliente, saldoClienteAtualizado);
+    await investimentosModel.comprarAtivos(codAtivo, qtdeAtivo, codCliente)
+    return { message: `Compra do ativo realizada com sucesso!`};
+  }
 }
 
 const buscarClienteOuAtivo = async (cod) => {
