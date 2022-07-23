@@ -39,7 +39,7 @@ const atualizarSaldo = async (codCliente, saldoAtualizado) => {
 };
 
 const buscarTodosAtivos = async () => {
-  const query = 'SELECT codAtivo, qtdeAtivo FROM Investimentos.clientesAtivos;';
+  const query = `SELECT codAtivo, SUM(qtdeAtivo) AS qtdeAtivo FROM Investimentos.clientesAtivos GROUP BY codAtivo ORDER BY codAtivo ASC;`;
   const [resultado] = await connection.execute(query);
   return resultado; 
 };
