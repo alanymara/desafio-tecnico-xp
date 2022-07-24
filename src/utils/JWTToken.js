@@ -15,7 +15,7 @@ const autenticacaoToken = async (token) => {
     throw erro;
   };
   try {
-    const verificado = await jwt.verify(token, JWT_SECRET, jwtconfig);
+    const verificado = jwt.verify(token, JWT_SECRET, jwtconfig);
     return verificado;
   } catch (error) {
     const erro = { status: 401, message: 'Token inspirado ou inválido' };

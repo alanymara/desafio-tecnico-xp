@@ -6,7 +6,9 @@ const depositoConta = async (req, res) => {
 };
 
 const saqueConta = async (req, res) => {
-  const resultado = await contaService.saqueConta(req.body);
+  const token = req.headers.authorization;
+  const dados = req.body;
+  const resultado = await contaService.saqueConta(token, dados);
   res.status(201).json(resultado);
 };
 

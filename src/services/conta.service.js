@@ -1,3 +1,4 @@
+const jwt_decode = require('jwt-decode');
 const contaModel = require('../models/conta.model');
 
 const depositoConta = async ({ CodCliente, Valor }) => {
@@ -9,7 +10,14 @@ const depositoConta = async ({ CodCliente, Valor }) => {
   return { message: `Depósito realizado com sucesso. Saldo atualizado!`};
 };
 
-const saqueConta = async ({ CodCliente, Valor }) => {
+const saqueConta = async (token, { CodCliente, Valor }) => {
+  const tokenDecodificado = jwt_decode(token);
+
+  if (tokenDecodificado.codCliente !== CodCliente) {
+    const erro = { status: 400, message: `Conta não permitida`};
+    throw erro;
+  }
+
   const S = 'saque';
   const cliente = await checarCliente(CodCliente);
 

@@ -12,8 +12,8 @@ const autenticacao = async ({ email, senha }) => {
     const erro = { status: 400, message: 'Campos inválidos' };
     throw erro;
    }
-
-  const token = geradorJWTToken({ email });
+  const codCliente = usuario[0].codCliente;
+  const token = geradorJWTToken({ email, codCliente });
   return { token };
 };
 
