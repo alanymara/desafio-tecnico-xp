@@ -14,7 +14,7 @@ const autenticacao = async ({ email, senha }) => {
     throw erro;
    }
 
-const token = geradorJWTToken(usuario);
+const token = geradorJWTToken({ usuario });
 return { token };
 };
 

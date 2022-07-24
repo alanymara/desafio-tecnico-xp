@@ -7,7 +7,7 @@ const jwtconfig = {
   algorithm: 'HS256',
 };
 
-const geradorJWTToken = (payload) => jwt.sign(payload, JWT_SECRET, jwtconfig);
+const geradorJWTToken = (dadosLogin) => jwt.sign(dadosLogin, JWT_SECRET, jwtconfig);
 
 const autenticacaoToken = async (token) => {
   if (!token) {
