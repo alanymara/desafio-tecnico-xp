@@ -1,4 +1,5 @@
-const { geradorJWTToken } = require("../utils/JWTToken");
+const { geradorJWTToken } = require('../utils/JWTToken');
+const loginModel = require('../models/login.model');
 
 const autenticacao = async ({ email, senha }) => {
   if (!email || !senha) {
@@ -13,7 +14,7 @@ const autenticacao = async ({ email, senha }) => {
     throw erro;
    }
 
-const token = geradorJWTToken(usuario.dataValues);
+const token = geradorJWTToken(usuario);
 return { token };
 };
 
