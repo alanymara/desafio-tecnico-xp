@@ -19,7 +19,7 @@ CREATE TABLE ativos (
     PRIMARY KEY(codAtivo)
 ) ENGINE=INNODB;
 
-ALTER TABLE Investimentos.ativos auto_increment = 1000;
+ALTER TABLE Investimentos.ativos auto_increment = 100;
 
 CREATE TABLE clientesAtivos (
     codCliente INT NOT NULL,
@@ -36,9 +36,9 @@ CREATE TABLE conta (
 ) ENGINE=INNODB;
 
 INSERT INTO Investimentos.clientes (saldo) VALUES
-    (100.96),
-    (150.02),
-    (108.78);
+    (1000.50),
+    (150.50),
+    (108.50);
 
 INSERT INTO Investimentos.ativos (qtdeAtivo, valorAtivo) VALUES
 	(15, 56.01),
@@ -46,7 +46,7 @@ INSERT INTO Investimentos.ativos (qtdeAtivo, valorAtivo) VALUES
 	(16, 85.89),
     (17, 96.65);
 INSERT INTO Investimentos.clientesAtivos (codCliente, codAtivo, qtdeAtivo) VALUES
-	(1, 1000, 5),
-    (1, 1001, 9),
-	(2, 1003, 8),
-    (2, 1002, 10)
+	(1, 100, 5),
+    (1, 101, 9),
+	(2, 103, 8),
+    (2, 102, 10)

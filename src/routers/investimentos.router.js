@@ -7,8 +7,9 @@ const routers = express.Router();
 
 routers.post('/investimentos/comprar', comprasValidacao, comprarAtivos);
 
+routers.get('/ativos', buscarTodosAtivos);
+
 routers.get('/ativos/:cod', buscarClienteOuAtivo);
 
-routers.get('/investimentos/ativos', buscarTodosAtivos);
 
 module.exports = routers;

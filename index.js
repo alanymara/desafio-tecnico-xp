@@ -13,7 +13,7 @@ app.use('/', contaRouters);
 
 app.use(error);
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`escutando a porta ${port}`)
