@@ -7,15 +7,14 @@ const autenticacao = async ({ email, senha }) => {
     throw erro;
   }
 
-  const usuario = await loginModel.buscarLogin(email, senha);
-
-   if (!usuario) {
+  const [usuario] = await loginModel.buscarLogin(email, senha);
+   if (usuario.length === 0) {
     const erro = { status: 400, message: 'Campos inválidos' };
     throw erro;
    }
 
-const token = geradorJWTToken({ usuario });
-return { token };
+  const token = geradorJWTToken({ email });
+  return { token };
 };
 
 module.exports = {
