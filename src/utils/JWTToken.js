@@ -7,7 +7,7 @@ const jwtconfig = {
   algorithm: 'HS256',
 };
 
-const geradorJWTToken = (informacoes) => jwt.sign(informacoes, JWT_SECRET, jwtconfig);
+const geradorJWTToken = (payload) => jwt.sign(payload, JWT_SECRET, jwtconfig);
 
 const autenticacaoToken = async (token) => {
   if (!token) {
@@ -15,8 +15,8 @@ const autenticacaoToken = async (token) => {
     throw erro;
   };
   try {
-    const verificacao = await jwt.verify(token, JWT_SECRET, jwtconfig);
-    return verificacao;
+    const verificado = await jwt.verify(token, JWT_SECRET, jwtconfig);
+    return verificado;
   } catch (error) {
     const erro = { status: 401, message: 'Token inspirado ou inválido' };
     throw erro;
